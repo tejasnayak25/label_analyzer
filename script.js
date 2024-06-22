@@ -13,6 +13,17 @@ termsCheckbox.addEventListener('change', () => {
     analyzeBtn.setAttribute('disabled', 'disabled');
   }
 });
+
+document.getElementById("share-btn").onclick = () => {
+  let data = {
+    title: "Label Padhega AI",
+    text: "Scan your food labels and let AI help you understand it.",
+    url: location.href
+  };
+  if(navigator.canShare(data)) {
+    navigator.share(data);
+  }
+}
 						
 const client = await Client.connect("gokaygokay/Florence-2");
 
@@ -21,7 +32,8 @@ const chatclient = await Client.connect("hysts/zephyr-7b");
 let picture = document.getElementById("picture");
 let chosenImg = document.getElementById("chosenImg");
 let output = document.getElementById("output");
-let scanBtn = document.getElementById("scan")
+let scanBtn = document.getElementById("scan");
+let product_name = document.getElementById("prodname");
 
 scanBtn.onclick = () => {
     picture.click();
@@ -52,10 +64,13 @@ picture.onchange = async (e) => {
 }
 
 analyzeBtn.onclick = async () => {
+    if(product_name.value === "") {
+      return;
+    }
     output.innerText = "Analyzing...";
 
     const analyzeresult = await chatclient.predict("/chat", {
-        message: `Analyze given label data and tell whether product is good for health, it's long-term and short-term effects. Make it brief, attractive, reader-friendly: ${pictureData}`, 		
+        message: `Analyze given label data and tell whether product is good for health, long-term and short-term effects. Make it brief, attractive, friendly: Name='${product_name.value}', ${pictureData}`, 		
 		system_prompt: "", 		
 		max_new_tokens: 2048, 		
 		temperature: 0.1, 		

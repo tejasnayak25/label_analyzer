@@ -1,6 +1,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Scan your food labels and let AI help you understand it.">
+    <meta name="author" content="Tejas Nayak">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
     <title>Label Padhega AI</title>
     <link rel="stylesheet" href="./css/output.css">
@@ -23,20 +25,29 @@
 <body class=" flex flex-col lg:overflow-hidden overflow-auto">
     <p class="text-xl w-full p-5 lg:px-10 md:px-10 px-8 mb-0 pb-0 font-bold flex justify-between items-center" style="font-family: 'Righteous-Regular';">
         <span>Label Padhega AI</span>
-        <a href="https://github.com/tejasnayak25" class=" h-4 w-4 rounded-full -mt-3">
-            <i class="uil uil-github text-3xl -m-3"></i>
-        </a>
+        <span class="flex gap-4">
+            <a id="share-btn" class=" h-8 w-8 rounded-full flex justify-center items-center">
+                <i class="uil uil-share-alt text-2xl"></i>
+            </a>
+            <a href="https://github.com/tejasnayak25" class=" h-8 w-8 rounded-full flex justify-center items-center">
+                <i class="uil uil-github text-3xl"></i>
+            </a>
+        </span>
     </p>
     <div class=" flex-1 w-full grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-3 lg:px-5 md:px-5 px-1 py-2 pt-0">
         <section class=" p-5">
             <div class=" card border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 h-full w-full rounded-xl relative">
                 <p class="p-2 border-b-2 text-sm border-slate-200 dark:border-slate-700 left-0 w-full">Note: Kindly upload a high-quality image for appropriate results!</p>
+                <div class="flex flex-col items-start justify-center px-7 pt-6 pb-0">
+                    <!-- <label for="prodname" class="ml-2 text-sm label label-text pt-0">Product Name</label> -->
+                    <input id="prodname" type="text" placeholder="Enter Product Name" class=" input input-accent w-full rounded-full border-slate-200 dark:border-slate-700 focus:outline-slate-200 dark:focus:outline-slate-700 focus:border-slate-200 dark:focus:border-slate-700 dark:input-primary" required>
+                </div>
                 <div class="px-8 mb-0 md:mt-2 mt-3 pt-4">
-                    <div class=" border-2 border-dashed border-slate-400 dark:border-slate-500 aspect-video relative overflow-hidden rounded-xl flex justify-center items-center px-5">
-                        <img id="chosenImg" class=" absolute w-full h-full hidden border-0 opacity-45">
+                    <div class=" border-2 border-dashed border-slate-400 dark:border-slate-500 relative overflow-hidden rounded-xl flex justify-center items-center px-5 lg:aspect-auto md:aspect-auto aspect-video" style="aspect-ratio: 16/5;">
+                        <img id="chosenImg" class=" absolute w-full h-full object-contain hidden border-0 opacity-45">
                         <input type="file" id="picture" name="picture" accept="image/*" class="hidden" capture="environment" />
                         <div class=" absolute w-full h-full flex justify-center items-center p-5">
-                            <button id="scan" class="btn btn-neutral dark:btn-info shadow border-0 shadow-slate-400 dark:shadow-slate-800 rounded-full lg:w-1/2 md:w-2/3 w-full flex justify-center items-center uppercase"><span class="material-symbols-rounded block mt-0.5" style="font-size: 20px;">document_scanner</span><span>Scan</span></button>
+                            <button id="scan" class="btn btn-neutral lg:btn-md md:btn-md btn-sm dark:btn-neutral dark:bg-slate-300 dark:text-black dark:hover:bg-slate-500 shadow border-0 shadow-slate-400 dark:shadow-slate-800 rounded-full lg:w-1/2 md:w-2/3 w-3/5 flex justify-center items-center uppercase"><span class="material-symbols-rounded block" style="font-size: 20px;">document_scanner</span><span>Scan</span></button>
                         </div>
                     </div>
                 </div>
