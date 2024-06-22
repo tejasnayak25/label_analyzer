@@ -1,0 +1,21 @@
+{
+  "name": "label_analyzer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tejas Nayak",
+  "license": "ISC",
+  "dependencies": {
+    "@iconscout/unicons": "^4.0.8",
+    "daisyui": "^4.12.2",
+    "express": "^4.19.2",
+    "material-symbols": "^0.20.0"
+  },
+  "devDependencies": {
+    "@gradio/client": "^1.1.1"
+  }
+}

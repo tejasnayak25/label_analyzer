@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+    <title>Label Analyzer | Label Padhega India</title>
+    <link rel="stylesheet" href="./css/output.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "@gradio/client": "./node_modules/@gradio/client/dist/index.js"
+            }
+        }
+    </script>
+    <style>
+        @font-face {
+            font-family: "Righteous-Regular";
+            src: url("./fonts/Righteous-Regular.ttf");
+        }
+    </style>
+    <link rel="stylesheet" href="./material-symbols/index.css">
+    <link rel="stylesheet" href="./@iconscout/unicons/css/line.css">
+</head>
+<body class=" flex flex-col lg:overflow-hidden overflow-auto">
+    <p class="text-xl w-full p-5 lg:px-10 md:px-10 px-8 mb-0 pb-0 font-bold flex justify-between items-center" style="font-family: 'Righteous-Regular';">
+        <span>Label Analyzer</span>
+        <a href="https://github.com/tejasnayak25" class=" h-4 w-4 rounded-full -mt-3">
+            <i class="uil uil-github text-3xl -m-3"></i>
+        </a>
+    </p>
+    <div class=" flex-1 w-full grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-3 lg:px-5 md:px-5 px-1 py-2 pt-0">
+        <section class=" p-5">
+            <div class=" card border-2 border-slate-700 bg-slate-800 h-full w-full rounded-xl relative">
+                <p class="p-2 border-b-2 text-sm border-slate-700 left-0 w-full">Note: Kindly upload a high-quality image for appropriate results!</p>
+                <div class="px-8 mb-0 md:mt-2 mt-3 pt-4">
+                    <div class=" border-2 border-dashed border-slate-500 aspect-video relative overflow-hidden rounded-xl flex justify-center items-center px-5">
+                        <img id="chosenImg" class=" absolute w-full h-full hidden border-0 opacity-45">
+                        <input type="file" id="picture" name="picture" accept="image/*" class="hidden" capture="environment" />
+                        <div class=" absolute w-full h-full flex justify-center items-center p-5">
+                            <button id="scan" class="btn btn-info shadow shadow-slate-800 rounded-full lg:w-1/2 md:w-2/3 w-full flex justify-center items-center uppercase"><span class="material-symbols-rounded block mt-0.5" style="font-size: 20px;">document_scanner</span><span>Scan</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 w-full">
+                    <div class="flex items-center p-4">
+                        <input id="terms" type="checkbox" class=" checkbox checkbox-primary h-5 w-5 text-blue-600">
+                        <label for="terms" class="ml-2">I agree that
+                            <cite class="text-info">"AI generations may or may not be accurate and that the developers aren't responsible for the results!"</cite>
+                        </label>
+                    </div>
+                    <div class="pt-2 pb-1 flex justify-center">
+                        <button id="analyzeBtn" class="btn btn-primary shadow shadow-slate-800 rounded-full w-1/2 cursor-not-allowed disabled:bg-primary disabled:opacity-50 disabled:text-slate-800 border-info uppercase flex justify-center items-center" disabled><span class="material-symbols-rounded block mt-0.5" style="font-size: 20px;">search</span><span>Analyze</span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class=" p-5 overflow-y-hidden" style="min-height: 90vh;">
+            <div class=" card border-2 border-slate-700 bg-slate-800 h-full w-full rounded-xl flex max-h-full flex-col">
+                <p id="output" class="flex-1 p-3 overflow-y-scroll text-wrap max-h-full" style="height: 100vh;max-height: 100vh;">Find the results here!</p>
+                <p class="p-2 border-t-2 text-xs border-slate-700 text-info">The AI generations may or may not be accurate. We do not take responsibility for the results!</p>
+            </div>
+        </section>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
