@@ -7,4 +7,14 @@
     .aspect-16\/5 {
         aspect-ratio: 16/5;
     }
+
+    .bg-default {
+        background-color: oklch(1 0 0);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .bg-default {
+            background-color: oklch(0.25 0.02 252.42);
+        }
+    }
 }
