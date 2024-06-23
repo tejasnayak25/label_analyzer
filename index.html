@@ -47,7 +47,7 @@
                     <input id="prodname" type="text" placeholder="Enter Product Name" class=" input input-accent w-full rounded-full border-slate-200 dark:border-slate-700 focus:outline-slate-200 dark:focus:outline-slate-700 focus:border-slate-200 dark:focus:border-slate-700 dark:input-primary" required>
                 </div>
                 <div class="px-8 mb-0 md:mt-2 mt-3 pt-4">
-                    <div class=" border-2 border-dashed border-slate-400 dark:border-slate-500 relative overflow-hidden rounded-xl flex justify-center items-center px-5 lg:aspect-auto md:aspect-auto aspect-video" style="aspect-ratio: 16/5;">
+                    <div class=" border-2 border-dashed border-slate-400 dark:border-slate-500 relative overflow-hidden rounded-xl flex justify-center items-center px-5 aspect-square lg:aspect-16/5 md:aspect-16/5">
                         <img id="chosenImg" class=" absolute w-full h-full object-contain hidden border-0 opacity-45">
                         <input type="file" id="picture" name="picture" accept="image/*" class="hidden" capture="environment" />
                         <div class=" absolute w-full h-full flex justify-center items-center p-5">
@@ -68,14 +68,25 @@
                 </div>
             </div>
         </section>
-        <section class=" p-5 overflow-y-hidden" style="min-height: 90vh;">
-            <div class=" card border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 h-full w-full rounded-xl flex max-h-full flex-col">
-                <p id="output" class="flex-1 p-3 overflow-y-scroll text-wrap max-h-full" style="height: 100vh;max-height: 100vh;">Find the results here!</p>
+        <section id="output-section" class="p-5 lg:block md:block hidden flex-col transition-all lg:bg-transparent md:bg-transparent bg-neutral lg:relative md:relative fixed left-0 top-0 w-full h-full max-h-full overflow-hidden">
+            <div class="pb-4 lg:hidden md:hidden block">
+                <button id="hide-output" class="btn btn-circle"><i class="uil uil-multiply"></i></button>
+            </div>
+            <div class="flex-1 card border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 h-full w-full rounded-xl flex flex-col overflow-hidden">
+                <md-block id="output" type="markdown" class="flex-1 p-3 overflow-y-auto text-wrap">
+                    Find the results here!
+                </md-block>
                 <p class="p-2 border-t-2 text-xs border-slate-200 dark:border-slate-700 text-black font-medium dark:font-normal dark:text-info">The AI generations may or may not be accurate. We do not take responsibility for the results!</p>
             </div>
-        </section>
+        </section>        
     </div>
 
+    <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+    <script type="text/javascript">
+    // markedInHtml.init()
+    // let out = document.getElementById("output");
+    // out.className = out.className.split(",").join(" ");
+    </script>
     <script type="module" src="./script.js"></script>
 </body>
 </html>

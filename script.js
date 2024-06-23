@@ -14,6 +14,12 @@ termsCheckbox.addEventListener('change', () => {
   }
 });
 
+let outputSection = document.getElementById('output-section');
+
+document.getElementById("hide-output").onclick = () => {
+  outputSection.classList.replace('flex','hidden');
+}
+
 document.getElementById("share-btn").onclick = () => {
   let data = {
     title: "Label Padhega AI",
@@ -25,9 +31,9 @@ document.getElementById("share-btn").onclick = () => {
   }
 }
 						
-const client = await Client.connect("gokaygokay/Florence-2");
+const imgclient = await Client.connect("gokaygokay/Florence-2");
 
-const chatclient = await Client.connect("hysts/zephyr-7b");
+const chatclient = await Client.connect("Be-Bo/llama-3-chatbot_70b");
 
 let picture = document.getElementById("picture");
 let chosenImg = document.getElementById("chosenImg");
@@ -48,14 +54,12 @@ picture.onchange = async (e) => {
     if(chosenImg.classList.contains("hidden")) {
         chosenImg.classList.remove("hidden");
     }
-    const result = await client.predict("/process_image", { 
-            image: e.target.files[0], 		
-            task_prompt: "OCR", 		
-            
-            model_id: "microsoft/Florence-2-large-ft", 
+    const result = await imgclient.predict("/process_image", { 
+      image: e.target.files[0], 		
+      task_prompt: "OCR", 		
+      text_input: "", 		
+      model_id: "microsoft/Florence-2-base-ft", 
     });
-
-    
 
     // let str = ocr['<OCR>'];
     pictureData = result.data[0];
@@ -67,17 +71,14 @@ analyzeBtn.onclick = async () => {
     if(product_name.value === "") {
       return;
     }
-    output.innerText = "Analyzing...";
+    
+    output.mdContent = "Analyzing...";
+
+    outputSection.classList.replace('hidden', 'flex');
 
     const analyzeresult = await chatclient.predict("/chat", {
-        message: `Analyze given label data and tell whether product is good for health, long-term and short-term effects. Make it brief, attractive, friendly: Name='${product_name.value}', ${pictureData}`, 		
-		system_prompt: "", 		
-		max_new_tokens: 2048, 		
-		temperature: 0.1, 		
-		top_p: 0.05, 		
-		top_k: 1, 		
-		repetition_penalty: 1
+        message: `Analyze given label data and tell whether product is good for health, long-term and short-term effects. Use unicode icons. Make it brief, neat, attractive, reader-friendly: Name='${product_name.value}', ${pictureData}`,
     });
 
-    output.innerText = analyzeresult.data[0];
+    output.mdContent = analyzeresult.data[0];
 }
