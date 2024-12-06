@@ -13,6 +13,7 @@
     "@iconscout/unicons": "^4.0.8",
     "daisyui": "^4.12.2",
     "express": "^4.19.2",
+    "label_analyzer": "file:",
     "material-symbols": "^0.20.0"
   },
   "devDependencies": {

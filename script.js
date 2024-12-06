@@ -33,7 +33,7 @@ document.getElementById("share-btn").onclick = () => {
 						
 const imgclient = await Client.connect("gokaygokay/Florence-2");
 
-const chatclient = await Client.connect("Be-Bo/llama-3-chatbot_70b");
+const chatclient = await Client.connect("huggingface-projects/llama-3.2-3B-Instruct");
 
 let picture = document.getElementById("picture");
 let chosenImg = document.getElementById("chosenImg");
