@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Scan your food labels and let AI help you understand it.">
@@ -8,15 +8,8 @@
     <meta property="og:url" content="https://label-padhega-ai.onrender.com" />
     <meta property="og:image" content="https://label-padhega-ai.onrender.com/images/lpai_social.png" />
     <link rel="shortcut icon" type="image/png" href="images/lpai_logo.png">
-    <title>Label Padhega AI</title>
+    <title>Food Analyzer</title>
     <link rel="stylesheet" href="./css/output.css">
-    <script type="importmap">
-        {
-            "imports": {
-                "@gradio/client": "./node_modules/@gradio/client/dist/index.js"
-            }
-        }
-    </script>
     <style>
         @font-face {
             font-family: "Righteous-Regular";
@@ -28,12 +21,12 @@
 </head>
 <body class=" flex flex-col overflow-auto">
     <p class="text-xl w-full p-5 lg:px-10 md:px-10 px-8 mb-0 pb-0 font-bold flex justify-between items-center" style="font-family: 'Righteous-Regular';">
-        <span>Label Padhega AI</span>
+        <span>Food Analyzer</span>
         <span class="flex gap-4">
-            <a id="share-btn" class=" h-8 w-8 rounded-full flex justify-center items-center">
+            <a id="share-btn" class=" cursor-pointer h-8 w-8 rounded-full flex justify-center items-center">
                 <i class="uil uil-share-alt text-2xl"></i>
             </a>
-            <a href="https://github.com/tejasnayak25" class=" h-8 w-8 rounded-full flex justify-center items-center">
+            <a href="https://github.com/tejasnayak25" class=" cursor-pointer h-8 w-8 rounded-full flex justify-center items-center">
                 <i class="uil uil-github text-3xl"></i>
             </a>
         </span>
@@ -42,6 +35,23 @@
         <section class=" p-5">
             <div class=" card border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 h-full w-full rounded-xl relative">
                 <p class="p-2 border-b-2 text-sm border-slate-200 dark:border-slate-700 left-0 w-full">Note: Kindly upload a high-quality image for appropriate results!</p>
+                
+                <div class="px-7 pt-6">
+                    <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-full overflow-hidden sm:flex dark:bg-slate-900 dark:border-gray-600 dark:text-white">
+                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                            <div class="flex items-center ps-3">
+                                <input id="horizontal-list-radio-license" type="radio" value="label" name="list-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked>
+                                <label for="horizontal-list-radio-license" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Analyze label</label>
+                            </div>
+                        </li>
+                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                            <div class="flex items-center ps-3">
+                                <input id="horizontal-list-radio-id" type="radio" value="food" name="list-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label for="horizontal-list-radio-id" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Analyze food</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <div class="flex flex-col items-start justify-center px-7 pt-6 pb-0">
                     <!-- <label for="prodname" class="ml-2 text-sm label label-text pt-0">Product Name</label> -->
                     <input id="prodname" type="text" placeholder="Enter Product Name" class=" input input-accent w-full rounded-full border-slate-200 dark:border-slate-700 focus:outline-slate-200 dark:focus:outline-slate-700 focus:border-slate-200 dark:focus:border-slate-700 dark:input-primary" required>
@@ -57,7 +67,7 @@
                 </div>
                 <div class="p-4 w-full">
                     <div class="flex items-center p-4">
-                        <input id="terms" type="checkbox" class=" checkbox checkbox-accent dark:checkbox-primary h-5 w-5 text-green-500 dark:text-blue-600">
+                        <input id="terms" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <label for="terms" class="ml-2">I agree that
                             <cite class=" text-success dark:text-info">"AI generations may or may not be accurate and that the developers aren't responsible for the results!"</cite>
                         </label>
@@ -73,7 +83,7 @@
                 <button id="hide-output" class="btn btn-circle"><i class="uil uil-multiply"></i></button>
             </div>
             <div class="flex-1 card border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 h-full w-full rounded-xl flex flex-col overflow-hidden">
-                <md-block id="output" type="markdown" class="flex-1 p-3 overflow-y-auto text-wrap">
+                <md-block id="output" type="markdown" class="flex-1 p-3 overflow-y-auto md:max-h-full max-h-none text-wrap">
                     Find the results here!
                 </md-block>
                 <p class="p-2 border-t-2 text-xs border-slate-200 dark:border-slate-700 text-black font-medium dark:font-normal dark:text-info">The AI generations may or may not be accurate. We do not take responsibility for the results!</p>

@@ -1,8 +1,8 @@
-import { Client } from "@gradio/client";
-
 let analyzeBtn = document.getElementById("analyzeBtn");
 const termsCheckbox = document.getElementById('terms');
 termsCheckbox.checked = false;
+
+let mode = "label";
 
 termsCheckbox.addEventListener('change', () => {
   if (termsCheckbox.checked) {
@@ -22,18 +22,14 @@ document.getElementById("hide-output").onclick = () => {
 
 document.getElementById("share-btn").onclick = () => {
   let data = {
-    title: "Label Padhega AI",
-    text: "Scan your food labels and let AI help you understand it.",
+    title: "Food Analyzer",
+    text: "Scan your labels and food and let AI help you understand it.",
     url: location.href
   };
   if(navigator.canShare(data)) {
     navigator.share(data);
   }
 }
-						
-const imgclient = await Client.connect("gokaygokay/Florence-2");
-
-const chatclient = await Client.connect("huggingface-projects/llama-3.2-3B-Instruct");
 
 let picture = document.getElementById("picture");
 let chosenImg = document.getElementById("chosenImg");
@@ -45,30 +41,32 @@ scanBtn.onclick = () => {
     picture.click();
 }
 
-let pictureData = "";
-
 picture.onchange = async (e) => {
-    scanBtn.lastElementChild.innerText = "Parsing...";
     let url = URL.createObjectURL(e.target.files[0]);
     chosenImg.src = url;
+
     if(chosenImg.classList.contains("hidden")) {
         chosenImg.classList.remove("hidden");
     }
-    const result = await imgclient.predict("/process_image", { 
-      image: e.target.files[0], 		
-      task_prompt: "OCR", 		
-      text_input: "", 		
-      model_id: "microsoft/Florence-2-base-ft", 
-    });
-
-    // let str = ocr['<OCR>'];
-    pictureData = result.data[0];
-
-    scanBtn.lastElementChild.innerText = "Change";
 }
 
+let instructions = {
+  "label": `You are an expert in nutrition and food safety. Carefully analyze the provided food label data and assess the overall healthiness of the product. 
+- Summarize the main ingredients and nutritional highlights.
+- Clearly identify any potential health risks, allergens, or notable benefits.
+- Discuss possible short-term and long-term health effects.
+- Use clear, concise language with bullet points and relevant unicode icons for better readability.
+- Make the summary engaging, easy to understand, and actionable for everyday consumers.
+Format: Product Name='$product_name'`,
+  "food": `You are a nutrition and food safety expert. Analyze the given picture of food and determine if the product is healthy.
+- Briefly summarize key observations.
+- Highlight health benefits or concerns, including short-term and long-term effects.
+- Use unicode icons and bullet points for clarity.
+- Make the summary concise, visually appealing, and easy to read.`,
+};
+
 analyzeBtn.onclick = async () => {
-    if(product_name.value === "") {
+    if(product_name.value === "" && mode === "label") {
       return;
     }
     
@@ -76,9 +74,67 @@ analyzeBtn.onclick = async () => {
 
     outputSection.classList.replace('hidden', 'flex');
 
-    const analyzeresult = await chatclient.predict("/chat", {
-        message: `Analyze given label data and tell whether product is good for health, long-term and short-term effects. Use unicode icons. Make it brief, neat, attractive, reader-friendly: Name='${product_name.value}', ${pictureData}`,
-    });
+    let analyzeresult;
+    let file = picture.files[0];
+    if(mode === "food" && picture.files.length > 0) {
+      let formData = new FormData();
+      formData.append("prompt", instructions[mode]);
+      formData.append("image", file);
+
+      analyzeresult = await fetch("/generate", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        return { data: [data.response] };
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        return "Error: " + error.message;
+      });
+    } else if(mode === "label") {
+      let formData = new FormData();
+      formData.append("prompt", instructions[mode].replace("$product_name", product_name.value));
+      formData.append("image", file);
+
+      analyzeresult = await fetch("/generate", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        return { data: [data.response] };
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        return "Error: " + error.message;
+      });
+    }
 
     output.mdContent = analyzeresult.data[0];
 }
+
+document.querySelectorAll("[name='list-radio']").forEach(inp => {
+  inp.addEventListener('change', (e) => {
+    const selected = document.querySelector("[name='list-radio']:checked");
+    if (selected) {
+      mode = selected.value;
+      if(mode === "label") {
+        product_name.parentElement.classList.replace('hidden', 'flex');
+      } else {
+        product_name.parentElement.classList.replace('flex', 'hidden');
+      }
+    }
+  });
+});
