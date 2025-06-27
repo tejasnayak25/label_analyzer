@@ -3,6 +3,6 @@
 	"rewrites": [
 		{ "source": "/(.*)", "destination": "/api" }
 	],
-	"buildCommand": "npm run build",
+	"buildCommand": "",
 	"outputDirectory": "."
 }
